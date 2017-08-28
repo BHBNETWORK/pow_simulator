@@ -1,17 +1,32 @@
 #!/bin/bash
-# create genesis block
 
-COUNTER=0
-BITS=4
-while [  $COUNTER -lt 10 ]; do
-    echo "Block number: $COUNTER"
-    FILENAME="mined_"$COUNTER".txt"
-    VARIABLENAME="test$COUNTER"
-    echo $VARIABLENAME
-    time hashcash -b $BITS -m -r $VARIABLENAME > $FILENAME
-    cat $FILENAME | tr -d "\n" | shasum
-    let COUNTER=COUNTER+1
-    let BITS=BITS+4
+# define genesis block
+HEIGHT=0
+DIFFICULTY=0
+
+while true; do
+    # start building blocks
+
+    # output to terminal current block height
+    echo "Current block height: $HEIGHT"
+
+    # define block filename
+    FILENAME="block_"$HEIGHT".txt"
+
+    VARIABLENAME="test$HEIGHT"
+    
+    # search for POW
+    # hashcash --help for list of options
+    time hashcash -P -b $DIFFICULTY -m -r $VARIABLENAME > $FILENAME
+
+    # write new block to file
+    cat $FILENAME | tr -d "\n" | shasum | tee -a $FILENAME
+
+    # define next block height
+    let HEIGHT=HEIGHT+1
+    
+    # increase difficulty
+    let DIFFICULTY=DIFFICULTY+1
 done
 
 
