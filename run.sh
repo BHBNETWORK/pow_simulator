@@ -28,10 +28,9 @@ while true; do
     echo "BLOCK FOUND!!!"
     echo "Elapsed time:" $ELAPSED_TIME "SECONDS"
 
-    # write hash to file
+    # write block to file
     HEADER1=$(echo $OUTPUT)
     HEADER2=$(echo $OUTPUT | shasum)
-    
     echo $HEADER1 >> $FILENAME
     echo $HEADER2 >> $FILENAME
     
